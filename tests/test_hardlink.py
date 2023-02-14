@@ -30,3 +30,17 @@ def test_hardlink_in_root_folder():
     finally:
         Path(hard_links_str).rmdir()
         test_file.unlink()
+
+
+def test_nested_hardlinks():
+    Path(f"{start_dir_str}/nested_folder").mkdir(exist_ok=True)
+    Path(f"{start_dir_str}/nested_folder/test_file.mkv").touch(exist_ok=True)
+    try:
+        hard_link_dir(start_dir_str)
+        assert Path(f"{hard_links_str}/nested_folder/test_file.mkv").exists()
+        Path(f"{hard_links_str}/nested_folder/test_file.mkv").unlink()
+    finally:
+        Path(f"{hard_links_str}/nested_folder").rmdir()
+        Path(f"{start_dir_str}/nested_folder/test_file.mkv").unlink()
+        Path(f"{start_dir_str}/nested_folder").rmdir()
+        Path(hard_links_str).rmdir()

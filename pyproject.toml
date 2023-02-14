@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "plex-links"
+version = "0.1.0"
+description = ""
+authors = ["Jayson Dorsett <ja_dorsett@jdorsett.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "plex_links", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

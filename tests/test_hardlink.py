@@ -14,3 +14,19 @@ def test_hardlink_no_root():
     """
     with pytest.raises(ValueError):
         hard_link_dir("data/test_folder_2")
+
+
+def test_hardlink_in_root_folder():
+    """
+    If there is any file in the starting folder, it should be
+    hardlinked into the new folder
+    """
+    test_file = Path(f"{start_dir_str}/test_file.mkv")
+    try:
+        test_file.touch()
+        hard_link_dir(start_dir_str)
+        assert Path(f"{hard_links_str}/test_file.mkv").exists()
+        Path(f"{hard_links_str}/test_file.mkv").unlink()
+    finally:
+        Path(hard_links_str).rmdir()
+        test_file.unlink()

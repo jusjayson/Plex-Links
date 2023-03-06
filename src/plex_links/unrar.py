@@ -14,4 +14,4 @@ def unrar(dir: str):
             unrar(file_or_folder)
         elif "rar" in file_or_folder.suffix:
             print("EXTRACTING", file_or_folder)
-            os.system(f"rar e {file_or_folder}")
+            os.system(f"cd {file_or_folder.parent} && rar e {file_or_folder}")

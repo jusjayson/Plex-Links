@@ -1,4 +1,21 @@
 from pathlib import Path
+from typing import Optional
+
+
+def get_mkv_from_subdir(subdir: Path) -> Optional[Path]:
+    assert isinstance(subdir, Path)
+    for file_or_folder in subdir.iterdir():
+        if file_or_folder.is_file() and file_or_folder.suffix == ".mkv":
+            return file_or_folder
+    return
+
+
+def hard_link_nested_mkvs(dir: Path):
+    for file_or_folder in dir.iterdir():
+        if file_or_folder.is_dir():
+            mkv_path = get_mkv_from_subdir(file_or_folder)
+            if mkv_path:
+                Path(dir, mkv_path.name).hardlink_to(mkv_path)
 
 
 def hard_link_dir(starting_dir: str):

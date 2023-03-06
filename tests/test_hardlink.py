@@ -2,9 +2,8 @@ import pytest
 from pathlib import Path
 
 from plex_links.hard_link import hard_link_dir
-from plex_links.utils import get_project_dir
+from conftest import start_dir_str
 
-start_dir_str = f"{get_project_dir()}/tests/data/test_folder"
 hard_links_str = f"{start_dir_str}/hard_links_links"
 
 

@@ -5,18 +5,20 @@ from plex_links.hard_link import hard_link_dir
 
 
 def backup(new_file_dir: str, backup_dir: str):
-    new_files = Path(new_file_dir)
-    backups = Path(backup_dir)
+    if not (new_files := Path(new_file_dir)).exists():
+        raise Exception(f"{new_files} DNE")
+    if not (backups := Path(backup_dir)).exists():
+        raise Exception(f"{backups} DNE")
 
-    for path in (new_files, backups):
-        if not path.exists():
-            raise Exception(f"{path} DNE")
-
-    for file_or_folder in new_files.iterdir():
-        if file_or_folder.is_file():
-            Path(backups, file_or_folder.name).hardlink_to(file_or_folder)
-        else:
-            hard_link_dir(file_or_folder)
-            os.system(
-                f"mv {file_or_folder}/hard_link_links {backups}/{file_or_folder.name}"
-            )
+    if new_files.is_file():
+        print(f'ln "{Path(new_files)}" to "{Path(backups, new_files.name)}"')
+        Path(backups, new_files.name).hardlink_to(new_files)
+    else:
+        if not Path(new_file_dir, "hard_links_links").exists():
+            hard_link_dir(new_files)
+        print(
+            f"mv \"{Path(new_files, 'hard_links_links')}\" to \"{Path(backups, new_files.name)}\""
+        )
+        os.system(
+            f"mv \"{Path(new_files, 'hard_links_links')}\" \"{Path(backups, new_files.name)}\""
+        )

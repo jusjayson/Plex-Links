@@ -4,14 +4,14 @@ from pathlib import Path
 import pytest
 
 from plex_links.hard_link import get_mkv_from_subdir, hard_link_nested_mkvs
-from conftest import start_dir_str
+from conftest import START_DIR_STR
 
 
 def test_get_from_single_subdir():
     """
     We should get Path(mkv_file) when calling get_mkv_from_subdir on a subdir
     """
-    nested_dir = Path(f"{start_dir_str}/subfolder")
+    nested_dir = Path(f"{START_DIR_STR}/subfolder")
     nested_dir.mkdir(exist_ok=True)
     nested_dir_mkv = Path(nested_dir, "my.mkv")
     distraction_files = [
@@ -35,15 +35,15 @@ def test_get_from_single_subdir():
 
 
 def test_create_hardlink_to_nested_mkv():
-    nested_dir = Path(f"{start_dir_str}/subfolder")
+    nested_dir = Path(f"{START_DIR_STR}/subfolder")
     nested_dir.mkdir(exist_ok=True)
     nested_dir_mkv = Path(nested_dir, "my.mkv")
     nested_dir_mkv.touch(exist_ok=True)
 
     try:
-        hard_link_nested_mkvs(Path(start_dir_str))
-        assert Path(start_dir_str, nested_dir_mkv.name).exists()
-        Path(start_dir_str, nested_dir_mkv.name).unlink()
+        hard_link_nested_mkvs(Path(START_DIR_STR))
+        assert Path(START_DIR_STR, nested_dir_mkv.name).exists()
+        Path(START_DIR_STR, nested_dir_mkv.name).unlink()
     finally:
         nested_dir_mkv.unlink()
         nested_dir.rmdir()
@@ -57,17 +57,17 @@ def test_create_hardlink_to_multiple_nested_mkvs():
     nested_dirs = []
     nested_mkvs = []
     for i in range(5):
-        nested_dirs.append(nested_dir := Path(f"{start_dir_str}/subfolder_{i}"))
+        nested_dirs.append(nested_dir := Path(f"{START_DIR_STR}/subfolder_{i}"))
         nested_dir.mkdir(exist_ok=True)
         nested_mkvs.append(nested_dir_mkv := Path(nested_dir, f"{i}.mkv"))
         nested_dir_mkv.touch(exist_ok=True)
 
     try:
-        hard_link_nested_mkvs(Path(start_dir_str))
+        hard_link_nested_mkvs(Path(START_DIR_STR))
         for i in range(5):
-            assert Path(start_dir_str, nested_mkvs[i].name).exists()
+            assert Path(START_DIR_STR, nested_mkvs[i].name).exists()
             Path(nested_mkvs[i]).unlink()
-            Path(start_dir_str, nested_mkvs[i].name).unlink()
+            Path(START_DIR_STR, nested_mkvs[i].name).unlink()
     finally:
         for nested_dir in nested_dirs:
             nested_dir.rmdir()

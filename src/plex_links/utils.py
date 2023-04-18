@@ -8,23 +8,13 @@ def get_project_dir():
     )
 
 
-def get_user_dir_path() -> str:
-    """
-    Acquire HOME-like path for storing project logs and configuration.
-    """
-    return (
-        f'{os.path.expanduser("~")}/'
-        f'.{os.environ.get("PROJECT_NAME", "aio-pika-wrapper")}'
-    )
-
-
 def get_config_folder_path() -> str:
     """
     Acquire HOME-like path for storing project configuration.
     """
     return os.environ.get(
         "CONFIG_FOLDER_PATH",
-        f"{get_user_dir_path()}/config",
+        f"{get_project_dir()}/config",
     )
 
 
@@ -34,5 +24,5 @@ def get_log_folder_path() -> str:
     """
     return os.environ.get(
         "LOG_FOLDER_PATH",
-        f"{get_user_dir_path()}/logs",
+        f"{get_project_dir()}/logs",
     )

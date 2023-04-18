@@ -3,9 +3,7 @@ import os.path
 
 
 def get_project_dir():
-    return os.environ.get(
-        "PROJECT_DIR", f"{os.path.expanduser('~')}/code/ProgrammingProjects/Plex-Links"
-    )
+    return os.environ.get("PROJECT_DIR", f"{os.path.expanduser('~')}/.plex-links")
 
 
 def get_config_folder_path() -> str:

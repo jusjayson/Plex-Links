@@ -7,7 +7,7 @@ from plex_links.backup import backup
 LOGGER = logging.getLogger(__name__)
 
 
-def flatten(target: Path, dest: Path = None):
+def flatten(target: str, dest: str = None):
     """
     Flatten target dir into parental dir.
 
@@ -60,13 +60,15 @@ def flatten(target: Path, dest: Path = None):
             if not folder.iterdir():
                 folder.rmdir()
 
-    if not target.exists():
+    if not (target := Path(target)).exists():
         raise ValueError(f"{target} DNE")
+    if not dest:
+        dest = target.parent
+    else:
+        dest = Path(dest)
+    if not dest.exists():
+        raise ValueError(f"{dest} DNE")
     if target == dest:
         raise ValueError(f"{target} and {dest} must be differnt folders")
-    if dest and not dest.exists():
-        raise ValueError(f"{dest} DNE")
-    elif not dest:
-        dest = target.parent
 
     _flatten(target, dest, False)

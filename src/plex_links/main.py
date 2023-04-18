@@ -22,4 +22,7 @@ elif sys.argv[1] == "backup_dir":
 
 elif sys.argv[1] == "flatten_dir":
     print("FLATTENING DIR")
-    flatten(sys.argv[2], sys.argv[3])
+    if len(sys.argv) > 3:
+        flatten(sys.argv[2], sys.argv[3])
+    else:
+        flatten(sys.argv[2])
